@@ -1,5 +1,8 @@
 # Decisions
 
+## ADR 004 — Explicit discovery and fail-closed transfers (accepted 2026-11-06)
+Supersedes deferral of discovery/downloads, not the installation prohibition. Use documented WUA APIs after UI consent and local Ubuntu recommendations; no universal catalog or vendor scraping. Require full ID plus OS/build/architecture and WUA applicability. Independent OEM INF validation is deferred. Official HTTPS single-file content gets per-hop validation, generated folders, bounded streaming, cancellation, separate hash/signature states and a journal. Invalid content is deleted; unverifiable content quarantined. WUA version/trusted hash remain UNKNOWN; HTTP/multipart/unavailable sources are manual. No installer, arbitrary URL import or fabricated compatibility. See [scope](driver-discovery.md) and [validation](../validation.md).
+
 ## ADR 001 — Original read-only MVP (accepted 2026-11-06)
 Problem: broad updater scope would make unsafe compatibility and installation claims. Constraints: native data, vendor neutrality, offline inventory and explicit privacy. Alternatives: integrate existing updater, query third-party driver packs, or original structured collectors. Decision: original native collectors and shared DTOs; dependencies only Avalonia/test frameworks. No update/download/install interfaces until verified candidate sources and administrative design exist. Consequence: explainable inventory now; advanced diagnostics remain limited. Reference licenses do not establish device coverage.
 

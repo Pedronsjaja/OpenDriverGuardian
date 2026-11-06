@@ -1,0 +1,43 @@
+name: Build and native inventory
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - run: dotnet restore OpenDriverGuardian.sln --locked-mode
+      - run: dotnet build OpenDriverGuardian.sln -c Release --no-restore
+      - run: dotnet test OpenDriverGuardian.sln -c Release --no-build --logger "trx;LogFileName=tests.trx"
+      - name: Real native scan (private output not uploaded)
+        shell: pwsh
+        run: |
+          dotnet src/OpenDriverGuardian.Cli/bin/Release/net10.0/OpenDriverGuardian.Cli.dll scan --output native-inventory.json --html native-inventory.html
+          if ($LASTEXITCODE -notin @(0,1)) { throw 'Native scan failed' }
+          $snapshot = Get-Content native-inventory.json -Raw | ConvertFrom-Json
+          if ($snapshot.Devices.Count -lt 1) { throw 'No observed devices; scan requires investigation' }
+          Write-Output "Native OS: $($snapshot.System.Os); devices: $($snapshot.Devices.Count); collection warnings: $($snapshot.Warnings.Count)"
+          exit 0
+      - name: Publish desktop build (framework dependent)
+        run: dotnet publish src/OpenDriverGuardian.App -c Release --no-restore -o artifacts/app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-${{ matrix.os }}
+          path: artifacts/app
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ matrix.os }}
+          path: '**/TestResults/*.trx'

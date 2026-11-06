@@ -1,0 +1,17 @@
+name: Inventory/diagnostic bug
+description: Report an observed defect without publishing private inventory
+body:
+  - type: textarea
+    attributes:
+      label: OS, architecture and app revision
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Reproduction and observed behavior
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Sanitized evidence and expected behavior
+      description: Do not include serials, accounts, full private inventories or credentials.

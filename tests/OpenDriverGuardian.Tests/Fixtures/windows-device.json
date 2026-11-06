@@ -1,0 +1,40 @@
+{
+  "CapturedAt": "2026-11-06T15:01:21.1196509+00:00",
+  "System": {
+    "Os": "Windows",
+    "OsVersion": "10.0.26300",
+    "Architecture": "X64",
+    "Kernel": "26300",
+    "Cpu": null,
+    "Board": null,
+    "Bios": null,
+    "MemoryBytes": null,
+    "Distribution": null
+  },
+  "Devices": [
+    {
+      "Key": "anonymized-device",
+      "Name": "AMD Radeon 740M Graphics",
+      "Category": "Display",
+      "Manufacturer": "Advanced Micro Devices, Inc.",
+      "HardwareIds": [
+        "PCI\\VEN_1002&DEV_1901&SUBSYS_15041043&REV_CA",
+        "PCI\\VEN_1002&DEV_1901&SUBSYS_15041043",
+        "PCI\\VEN_1002&DEV_1901&CC_030000",
+        "PCI\\VEN_1002&DEV_1901&CC_0300"
+      ],
+      "Driver": "amduw23g-205306-a9c55ce7",
+      "DriverVersion": "32.0.32015.7029",
+      "DriverProvider": "Advanced Micro Devices, Inc.",
+      "InfPath": "oem18.inf",
+      "ProblemCode": 0,
+      "State": "no-os-problem-reported",
+      "Evidence": "Win32_PnPEntity + Win32_PnPSignedDriver",
+      "IsSigned": true
+    }
+  ],
+  "Warnings": [
+    "Anonymized real Windows observation; host details and instance identifier removed."
+  ],
+  "SchemaVersion": "1.0"
+}

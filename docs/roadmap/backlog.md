@@ -1,5 +1,7 @@
 # Phases and acceptance gates
 
+Requested Phase 3 increment: WUA adapter, exact matching, bounded official HTTPS transfers, Authenticode/journal and bilingual GUI are implemented. Ubuntu provides local guidance only. Live WUA discovery/download, graphical interaction, OEM INF/catalog verification and distro package managers remain gates. See [scope](../architecture/driver-discovery.md). Original research tracks below retain their order; installation/rollback and firmware remain deferred.
+
 1. Research/architecture: original DTOs, license audit, ADRs and compilable projects. Initial implementation present.
 2. Inventory MVP: Windows structured CIM and Linux PCI/USB, CLI scan, JSON, UI, unit fixtures. Validate each platform; capture anonymized evidence. ARM64/cross-publish are not real ARM64 testing.
 3. Diagnostics: SetupAPI/Configuration Manager coverage, device present/configuration semantics, detailed DriverStore association and Linux platform buses. Acceptance: known cases, denied sources, stale/disappearing devices and no false missing-driver classification.

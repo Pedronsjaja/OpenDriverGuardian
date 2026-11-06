@@ -5,6 +5,7 @@ public sealed record Device(string Key, string Name, string Category, string? Ma
     string? Driver, string? DriverVersion, string? DriverProvider, string? InfPath, int? ProblemCode, string State, string Evidence)
 {
     public bool? IsSigned { get; init; }
+    public string[] CompatibleIds { get; init; } = [];
 }
 public sealed record SystemInfo(string Os, string OsVersion, string Architecture, string Kernel,
     string? Cpu, string? Board, string? Bios, ulong? MemoryBytes, string? Distribution);

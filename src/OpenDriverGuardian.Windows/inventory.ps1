@@ -8,7 +8,7 @@ function Read-Cim($class) {
         'Win32_BIOS' { @('SMBIOSBIOSVersion') }
         'Win32_Processor' { @('Name') }
         'Win32_PnPSignedDriver' { @('DeviceID','DriverVersion','DriverProviderName','InfName','IsSigned') }
-        'Win32_PnPEntity' { @('Present','Name','PNPClass','Manufacturer','HardwareID','ConfigManagerErrorCode','PNPDeviceID','Service') }
+        'Win32_PnPEntity' { @('Present','Name','PNPClass','Manufacturer','HardwareID','CompatibleID','ConfigManagerErrorCode','PNPDeviceID','Service') }
         default { throw 'Unsupported CIM source' }
     }
     try { @(Get-CimInstance -ClassName $class -Property $properties -ErrorAction Stop) }
@@ -33,6 +33,7 @@ $devices = @(foreach ($p in @(Read-Cim 'Win32_PnPEntity')) {
     [ordered]@{
         Key = $key; Name = [string]$p.Name; Category = [string]$p.PNPClass
         Manufacturer = $p.Manufacturer; HardwareIds = @($p.HardwareID | Where-Object { $_ })
+        CompatibleIds = @($p.CompatibleID | Where-Object { $_ })
         Driver = $p.Service; DriverVersion = $s.DriverVersion; DriverProvider = $s.DriverProviderName
         InfPath = $s.InfName; IsSigned = $s.IsSigned; ProblemCode = $problem
         State = $(if ($null -eq $problem) { 'unknown' } elseif ($problem -eq 0) { 'no-os-problem-reported' } else { 'os-problem-reported' })

@@ -2,21 +2,26 @@
 
 Inventário e diagnóstico inicial de hardware, **local e somente leitura**, para Windows e Linux. Interface Avalonia e CLI C#/.NET 10. [English](README.en.md).
 
-O MVP coleta dados reais do sistema; não apresenta porcentagem artificial de saúde. Não instala, remove, baixa ou atualiza drivers, BIOS ou firmware. Não há telemetria nem upload automático. Relatórios são salvos apenas por solicitação.
+O projeto coleta dados reais do sistema; não apresenta porcentagem artificial de saúde. A tela **Drivers e Downloads** permite consultar fontes e baixar conteúdo elegível por solicitação. Não instala, remove ou atualiza drivers, BIOS ou firmware. Sem telemetria ou upload automático de inventários. A consulta online ao Windows Update exige consentimento explícito na tela.
 
 ## O que existe
 
 | Recurso | Estado / limite |
 |---|---|
 | Windows: sistema, CPU, placa-mãe, BIOS e memória | IMPLEMENTADO via CIM, conforme dados e permissões disponíveis |
-| Windows: PnP e drivers associados | IMPLEMENTADO: Hardware IDs, classe, versão/provedor/INF e código de problema; metadado IsSigned não é validação Authenticode |
+| Windows: PnP e drivers associados | IMPLEMENTADO: Hardware IDs/Compatible IDs, classe, versão/provedor/INF e código de problema; metadado IsSigned não é validação Authenticode |
 | Linux: sistema e PCI/USB | IMPLEMENTADO via proc/sysfs/os-release, IDs, modalias e binding; nomes podem ser apenas identificadores |
 | Intel/AMD/NVIDIA | Inventário independente do fabricante; cobertura depende da enumeração do SO. Não significa teste em cada fabricante/modelo |
 | Diagnóstico | Códigos Windows 28/22/outros são explicados. Sem binding Linux não comprova driver ausente |
 | Interface desktop | Visão geral, inventário, diagnóstico, áudio observado, exportação e idioma pt/en |
 | Exportação | JSON e HTML implementados; PDF planejado |
 | Áudio | Apenas classificação de dispositivos observados; sem captura/reprodução, teste de rota ou endpoint padrão |
-| Matching, consultas de atualização, download/instalação e rollback | PLANEJADOS, sem botões que simulem execução |
+| Windows Update | Adaptador WUA implementado; consulta online real ainda NÃO VALIDADA. Sem contornar políticas |
+| Matching | IDs completos + SO/versão/build/arquitetura + aplicabilidade WUA. OEM/subsystem delegado ao WUA; sem inspeção independente de INF |
+| Downloads | HTTPS oficial, redirects restritos, progresso/cancelamento, SHA-256, Authenticode e registro local. Validado com servidor local de teste; sem download real de driver como evidência |
+| Ubuntu | Recomendações locais de `ubuntu-drivers devices`, se instalado. Pacotes não verificados; download/instalação manuais |
+| Fabricantes / Catalog | Páginas oficiais para consulta manual. Sem scraping, API universal ou URLs de arquivo presumidas |
+| Instalação e rollback | PLANEJADOS; não implementados |
 | SQLite/histórico | PLANEJADO; sem banco desnecessário para o scan atual |
 
 Leia [arquitetura e limites](docs/architecture/overview.md), [fontes](docs/research/references.md), [validação](docs/validation.md) e [roadmap](docs/roadmap/backlog.md). A evidência distingue compilação, testes de fixtures e execução real por plataforma.
@@ -40,7 +45,11 @@ Na CLI, escolha nomes novos para exportar: arquivos existentes não são sobresc
 
 Não são solicitados números de série, contas, MAC ou arquivos pessoais. Chaves PnP de instância são transformadas em hash antes da saída do adaptador Windows. Hardware IDs e rótulos de dispositivos ainda podem identificar a configuração da máquina: revise antes de compartilhar. Relatórios completos reais não são fixtures públicas.
 
-O driver instalado não foi comparado a um catálogo oficial de candidatos. Não declarar atualização compatível pela existência de uma versão maior; não remover pacotes sem associação por suposição. Firmware terá fluxo separado. Os scripts do projeto não alteram privilégios, serviços ou dispositivos. [Segurança](SECURITY.md).
+O scan não consulta catálogos nem baixa arquivos. Na GUI: analise → abra **Drivers e Downloads** → autorize a consulta → revise as evidências → baixe um candidato elegível. A Microsoft pode receber dados de aplicabilidade pela consulta WUA. Fabricantes sem integração permanecem em consulta manual.
+
+Downloads ficam em `%LOCALAPPDATA%/OpenDriverGuardian/Downloads/<operação>/`, com `result.json`. Hash calculado sem referência confiável não comprova integridade. Assinatura indisponível mantém o arquivo com `.unverified`; hash divergente/assinatura inválida remove o payload. A aplicação nunca executa o arquivo. Conteúdo WUA com HTTP, múltiplos arquivos ou URL ausente não habilita download. Versão desconhecida: `UNKNOWN`; tamanho WUA é estimativa.
+
+Leia [implementação e limites da Fase 3](docs/architecture/driver-discovery.md). `apt`/`dnf`/`pacman`, APIs de fabricantes, validação interna de CAB/INF e firmware/LVFS não estão integrados. Não recomendar atualização pela existência de uma versão maior. [Segurança](SECURITY.md).
 
 ## Desenvolvimento e licença
 

@@ -1,1 +1,1 @@
-<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup></PropertyGroup><ItemGroup><ProjectReference Include="../OpenDriverGuardian.Core/OpenDriverGuardian.Core.csproj" /><EmbeddedResource Include="inventory.ps1" /></ItemGroup></Project>
+<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup></PropertyGroup><ItemGroup><ProjectReference Include="../OpenDriverGuardian.Core/OpenDriverGuardian.Core.csproj" /><EmbeddedResource Include="inventory.ps1" /><EmbeddedResource Include="discovery.ps1" /><EmbeddedResource Include="signature.ps1" /></ItemGroup></Project>

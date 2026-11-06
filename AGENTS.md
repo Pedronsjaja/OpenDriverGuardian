@@ -1,5 +1,7 @@
 # OpenDriver Guardian engineering
 
+Discovery/download increment: read docs/architecture/driver-discovery.md. Scan/CLI stay offline; UI discovery needs consent, downloads need an eligible official HTTPS WUA candidate. No execution/installation. Preserve separate hash/signature states and quarantine incomplete verification. Earlier "no default network" constraints still apply; explicit UI queries/transfers are supported. Native test transport is internal-only, never a production insecure-network setting.
+
 Read README and relevant docs/architecture sections. .NET10; Core owns DTOs/diagnostics/reports, Windows owns fixed read-only CIM adapter, Linux owns proc/sysfs text reads, CLI/App select the scanner. Do not create empty platform projects or fake features.
 Use English code/technical docs; README is bilingual as requested. Build: dotnet build -c Release; tests: dotnet test -c Release; CLI: dotnet run --project src/OpenDriverGuardian.Cli -- scan. See docs/validation.md before treating a fixture/cross-build as platform validation.
 Preserve privacy, unknown values and partial warnings. No default network/telemetry, elevation, installer, audio capture or playback. Never infer update compatibility from a version or absence of a binding. Real reports remain outside Git; only explicitly anonymized minimal fixtures. Never copy GPL reference code into the MIT project. Add native dependencies only for a concrete need.

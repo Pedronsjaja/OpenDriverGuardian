@@ -1,5 +1,7 @@
 # Architecture and capability boundary
 
+The original inventory boundary below remains historical context. Separate consented WUA/Ubuntu discovery and downloads are described in [driver discovery](driver-discovery.md); statements below about catalogs being absent apply to offline scan only. CLI remains offline. No installation/rollback was added.
+
 The MVP answers what the OS exposes, not which update should be installed. UI and CLI use IInventoryScanner and the same Snapshot/Device contracts. Device ProblemCode is nullable; null is unknown, not success. Hardware identifiers are observations, not a matched package. Windows CIM data is collected as JSON, not parsed localized console tables. Linux reads known read-only attributes, never config/resource/rom/control files.
 
 ```mermaid

@@ -39,11 +39,11 @@ public sealed class WindowsDriverDiscovery : IDriverDiscovery
             null, "WindowsUpdate", OfficialSources.Pages[0], [row.HardwareId], system.Os,
             system.OsVersion, system.Architecture, system.Kernel, null, true,
             row.SizeBytes, row.Urls.Length > 1 ? "WUA multipart content (manual assembly required)" : "WUA content",
-            row.Urls.Length == 1 ? row.Urls[0] : null, null,
-            "Microsoft Windows Update applicability search; DriverHardwareID and provider metadata. Version unavailable (not parsed from title). Subsystem/OEM applicability delegated to WUA; no independent INF validation.")).ToArray();
+            row.Urls.Length == 1 && row.EulaAccepted == true ? row.Urls[0] : null, null,
+            "Microsoft Windows Update applicability search; DriverHardwareID and provider metadata. Version unavailable (not parsed from title). Subsystem/OEM applicability delegated to WUA; no independent INF validation. EULA already accepted: " + (row.EulaAccepted?.ToString() ?? "UNKNOWN") + ". No license is accepted by this application.")).ToArray();
         return new(candidates, ["WUA may omit direct URLs or return HTTP/multipart content: download is disabled for these. No trusted hash is exposed by this adapter. No packages installed or downloaded by discovery."]);
     }
-    private sealed record UpdateRow(string Id, string Title, string Manufacturer, string HardwareId, long? SizeBytes, string[] Urls);
+    private sealed record UpdateRow(string Id, string Title, string Manufacturer, string HardwareId, long? SizeBytes, string[] Urls, bool? EulaAccepted);
 }
 
 internal static class PowerShellAdapter

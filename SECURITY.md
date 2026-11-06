@@ -1,5 +1,7 @@
 # Security and privacy
 
+Direct WUA download additionally requires EulaAccepted=true; unknown/unaccepted license state is manual. The app never calls AcceptEula or bypasses authentication/licensing restrictions.
+
 Inventory remains offline and read-only. No install/remove/update, firmware, elevation, telemetry, microphone stream or personal-file analysis. WUA discovery is an explicit consented online action; Microsoft may receive OS/device applicability information. Fixed embedded scripts use system PowerShell with bounded output/timeouts and no execution-policy changes. Signature validation explicitly imports the system security module. Ubuntu runs only `/usr/bin/ubuntu-drivers devices`, without sudo, repository refresh or installation.
 
 Do not commit full real inventories. The collector excludes requested serial/MAC/account fields and hashes Windows instance IDs, but names and hardware IDs can still identify host configuration. Export requires a user action and should be reviewed before sharing. HTML escapes external labels; CLI refuses overwrites. A GUI Save dialog can replace a user-selected existing report after the platform's confirmation.

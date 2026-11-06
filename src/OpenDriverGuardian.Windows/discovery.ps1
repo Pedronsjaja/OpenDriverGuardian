@@ -13,10 +13,13 @@ $rows = @(foreach ($update in $result.Updates) {
     $urls = @()
     try { $urls = @(foreach ($content in $update.DownloadContents) { if ($content.DownloadUrl) { [string]$content.DownloadUrl } }) }
     catch { $urls = @() }
+    $licenseAccepted = $false
+    try { $licenseAccepted = [bool]$update.EulaAccepted } catch { }
     [ordered]@{
         Id = [string]$update.Identity.UpdateID; Title = [string]$update.Title
         Manufacturer = [string]$update.DriverManufacturer; HardwareId = [string]$update.DriverHardwareID
         SizeBytes = [long]$update.MaxDownloadSize; Urls = $urls
+        EulaAccepted = $licenseAccepted
     }
 })
 ConvertTo-Json -InputObject $rows -Depth 6 -Compress

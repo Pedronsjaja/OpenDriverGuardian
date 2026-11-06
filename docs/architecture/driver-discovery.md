@@ -12,6 +12,8 @@ Ubuntu runs local `ubuntu-drivers devices` only if installed on Ubuntu. Exact mo
 
 ## Transfer and verification
 
+Direct URLs also require WUA EulaAccepted=true on this computer. Unaccepted/unknown licensing disables download and remains manual. The app never calls AcceptEula, bypasses authentication or replaces an HTTP URL with an assumed HTTPS variant.
+
 DriverDownloads owns a nonredirecting HttpClient. Every URI must be HTTPS/443 without userinfo/fragment and an approved Microsoft content hostname. Each redirect is validated, at most five. No HTTP fallback or scheme replacement. Test-only internal transport rewrites synthetic official-shaped URIs to a loopback HTTP server; app/CLI cannot enable it.
 
 Operations own generated directories in LocalApplicationData/OpenDriverGuardian/Downloads. Candidate names/IDs never become paths. Ancestor symlinks/junctions are rejected. Transfers stream into a new file, report actual bytes and Content-Length (or UNKNOWN), enforce 2 GiB/20 minute/cancellation limits and reject empty/truncated content. WUA maximum size is an estimate. SHA-256 is computed; only a trusted reference produces MATCHED. WUA currently supplies none: COMPUTED_ONLY_NO_TRUSTED_REFERENCE.

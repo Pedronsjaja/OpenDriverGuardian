@@ -3,6 +3,7 @@
 Checked 2026-11-06. Source code was inspected for licensing/purpose; external applications were not executed and no code/assets/driver packs were copied. Maintenance observations are point-in-time, not quality/security guarantees.
 
 ## Primary API/platform sources
+- [EulaAccepted](https://learn.microsoft.com/en-us/windows/win32/api/wuapi/nf-wuapi-iupdate-get_eulaaccepted): download eligibility requires an already accepted license; application never accepts terms or bypasses the distribution workflow.
 - [DriverHardwareID](https://learn.microsoft.com/en-us/windows/win32/api/wuapi/nf-wuapi-iwindowsdriverupdate-get_driverhardwareid): hardware or compatible ID required for installability; compare full IDs, not product-name/version heuristics.
 - [DownloadContents](https://learn.microsoft.com/en-us/windows/win32/api/wuapi/nf-wuapi-iupdate-get_downloadcontents) and [DownloadUrl](https://learn.microsoft.com/en-us/windows/win32/api/wuapi/nf-wuapi-iupdatedownloadcontent-get_downloadurl): documented content enumeration; URL availability does not establish HTTPS, completeness or signature validity.
 - [Get-AuthenticodeSignature](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-authenticodesignature?view=powershell-5.1): native signature status, not OEM compatibility. Import the system module explicitly to avoid inherited module-path conflicts.

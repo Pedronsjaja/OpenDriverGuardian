@@ -65,13 +65,20 @@ public sealed class DriverManagementTests
     public void WuaMetadataDoesNotInventVersionsOrMultipartDownload(int count)
     {
         var json = global::System.Text.Json.JsonSerializer.Serialize(new[] { new { Id = "fixture", Title = "Example driver 9999.0", Manufacturer = "Example",
-            HardwareId = Device.HardwareIds[0], SizeBytes = 1024, Urls = Enumerable.Repeat(Candidate.DownloadUrl, count).ToArray() } });
+            HardwareId = Device.HardwareIds[0], SizeBytes = 1024, Urls = Enumerable.Repeat(Candidate.DownloadUrl, count).ToArray(), EulaAccepted = true } });
         var candidate = Assert.Single(WindowsDriverDiscovery.Parse(json, System).Candidates);
         Assert.Null(candidate.Version);
         Assert.Equal(count == 1, OfficialSources.CanDownload(candidate));
         Assert.Equal(Device.HardwareIds[0], candidate.HardwareIds[0]);
     }
     [Fact] public void EmptyWuaResponseHasNoCandidate() => Assert.Empty(WindowsDriverDiscovery.Parse("[]", System).Candidates);
+    [Theory][InlineData(true)][InlineData(false)][InlineData(null)]
+    public void UnacceptedOrUnknownLicenseCannotEnableDownload(bool? accepted)
+    {
+        var json = global::System.Text.Json.JsonSerializer.Serialize(new[] { new { Id = "fixture", Title = "Example", Manufacturer = "Example",
+            HardwareId = Device.HardwareIds[0], SizeBytes = 1024, Urls = new[] { Candidate.DownloadUrl }, EulaAccepted = accepted } });
+        Assert.Equal(accepted == true, OfficialSources.CanDownload(Assert.Single(WindowsDriverDiscovery.Parse(json, System).Candidates)));
+    }
     [Theory][InlineData("[{}]")][InlineData("[null]")][InlineData("null")][InlineData("not-json")]
     public void MalformedMetadataIsNotTrusted(string json) => Assert.Throws<global::System.Text.Json.JsonException>(() => WindowsDriverDiscovery.Parse(json, System));
     [Fact] public async Task WrongSessionCannotTriggerWindowsUpdateQuery()

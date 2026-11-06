@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "opendriverguardian.core": {
+        "type": "Project"
+      },
+      "opendriverguardian.linux": {
+        "type": "Project",
+        "dependencies": {
+          "OpenDriverGuardian.Core": "[1.0.0, )"
+        }
+      },
+      "opendriverguardian.windows": {
+        "type": "Project",
+        "dependencies": {
+          "OpenDriverGuardian.Core": "[1.0.0, )"
+        }
+      }
+    }
+  }
+}

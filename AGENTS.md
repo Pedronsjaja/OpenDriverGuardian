@@ -1,0 +1,6 @@
+# OpenDriver Guardian engineering
+
+Read README and relevant docs/architecture sections. .NET10; Core owns DTOs/diagnostics/reports, Windows owns fixed read-only CIM adapter, Linux owns proc/sysfs text reads, CLI/App select the scanner. Do not create empty platform projects or fake features.
+Use English code/technical docs; README is bilingual as requested. Build: dotnet build -c Release; tests: dotnet test -c Release; CLI: dotnet run --project src/OpenDriverGuardian.Cli -- scan. See docs/validation.md before treating a fixture/cross-build as platform validation.
+Preserve privacy, unknown values and partial warnings. No default network/telemetry, elevation, installer, audio capture or playback. Never infer update compatibility from a version or absence of a binding. Real reports remain outside Git; only explicitly anonymized minimal fixtures. Never copy GPL reference code into the MIT project. Add native dependencies only for a concrete need.
+Sources/limitations: docs/research/references.md; architecture decisions: docs/architecture/decisions.md. Significant changes require relevant unit/integration evidence, clear status and reproducible commands. Avoid generated bin/obj/artifacts and repeated full-repo reads. Keep work scoped and publication free of real host inventories.
